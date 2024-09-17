@@ -72,9 +72,9 @@ functions:
               application/json: ${file(models/create-todo-request.json)}
     iamRoleStatements:
       - Effect: Allow
-          Action:
-            - dynamodb:PutItem
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
@@ -88,9 +88,9 @@ functions:
               application/json: ${file(models/update-todo-request.json)}
     iamRoleStatements:
       - Effect: Allow
-          Action:
-            - dynamodb:UpdateItem
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
@@ -101,9 +101,9 @@ functions:
           cors: true
     iamRoleStatements:
       - Effect: Allow
-          Action:
-            - dynamodb:DeleteItem
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -114,10 +114,10 @@ functions:
           cors: true
     iamRoleStatements:
       - Effect: Allow
-          Action:
-            - s3:PutObject
-            - s3:GetObject
-          Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
 
 resources:
   Resources:
