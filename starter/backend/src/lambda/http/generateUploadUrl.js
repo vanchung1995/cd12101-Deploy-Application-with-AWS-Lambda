@@ -7,6 +7,7 @@ const s3Client = new S3Client()
 const todoService = new TodoService();
 const logger = createLogger('todoRepository')
 const BUCKET_NAME = process.env.IMAGES_S3_BUCKET
+const URL_EXPIRATION = process.env.SIGNED_URL_EXPIRATION
 
 export async function handler(event) {
   const todoId = event.pathParameters.todoId
@@ -46,7 +47,7 @@ async function getUploadUrl(todoId) {
     Key: todoId
   })
   const url = await getSignedUrl(s3Client, command, {
-    expiresIn: urlExpiration
+    expiresIn: URL_EXPIRATION
   })
   return url
 }
