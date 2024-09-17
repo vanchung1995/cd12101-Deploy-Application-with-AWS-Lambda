@@ -7,7 +7,7 @@ export async function handler(event) {
   const newTodo = JSON.parse(event.body)
 
   const todoId = uuidv4()
-  const createdAt = new Date();
+  const createdAt = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const done = false;
   const newItem = {
     todoId,
