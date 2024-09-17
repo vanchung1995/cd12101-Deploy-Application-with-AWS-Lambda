@@ -70,7 +70,7 @@ export class TodoRepository {
             },
             UpdateExpression: "set name = :name, dueDate = :dueDate, done=:done",
             ExpressionAttributeValues: {
-                "name": todoEntity.name | toDo.name,
+                ":name": todoEntity.name | toDo.name,
                 ":dueDate": todoEntity.dueDate | toDo.dueDate,
                 ":done": todoEntity.done | toDo.done
             }
