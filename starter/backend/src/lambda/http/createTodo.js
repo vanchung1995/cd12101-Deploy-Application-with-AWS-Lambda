@@ -17,5 +17,14 @@ export async function handler(event) {
   }
 
   await todoService.insert(newItem);
-  return newItem
+  
+  return {
+    statusCode: 201,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      newItem
+    })
+  }
 }
