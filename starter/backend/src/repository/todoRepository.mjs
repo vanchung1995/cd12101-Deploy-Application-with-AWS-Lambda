@@ -62,7 +62,7 @@ export class TodoRepository {
     
     async update(todoId, todoEntity) {
         this.logger.info('Update todo id: '+todoId)
-        const toDo = await get(todoId)
+        const toDo = await this.get(todoId)
         const updateCommand = {
             TableName: this.todoTable,
             Key: {
@@ -80,6 +80,7 @@ export class TodoRepository {
     
     async remove(todoId) {
         this.logger.info('Delete todo id: '+todoId)
+        const toDo = await this.get(todoId)
         const deleteCommand = { 
             TableName: this.todoTable, 
             Key: {
