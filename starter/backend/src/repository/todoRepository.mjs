@@ -25,14 +25,21 @@ export class TodoRepository {
     
     async get(todoId) {
         this.logger.info('Get todo with id: ' + todoId)
-        const result = await this.dynamoDbClient.query({
+        const params = {
             TableName: this.todoTable,
-            IndexName: this.todoIndex,
-            KeyConditionExpression: 'todoId = :todoId',
-            ExpressionAttributeValues: {
-                ':todoId': todoId
+            Key: {
+              id: todoId
             }
-        })
+        }
+        // const result = await this.dynamoDbClient.query({
+        //     TableName: this.todoTable,
+        //     IndexName: this.todoIndex,
+        //     KeyConditionExpression: 'todoId = :todoId',
+        //     ExpressionAttributeValues: {
+        //         ':todoId': todoId
+        //     }
+        // })
+        const result = await this.dynamoDbClient.get(params)
         if (result.Count === 0) {
             throw new Error('No todo with id: ' + todoId)
         }
