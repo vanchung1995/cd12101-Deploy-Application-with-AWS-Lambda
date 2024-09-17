@@ -31,20 +31,8 @@ export class TodoRepository {
                 todoId: todoId
             }
         }
-        // const result = await this.dynamoDbClient.query({
-        //     TableName: this.todoTable,
-        //     IndexName: this.todoIndex,
-        //     KeyConditionExpression: 'todoId = :todoId',
-        //     ExpressionAttributeValues: {
-        //         ':todoId': todoId
-        //     }
-        // })
         const result = await this.dynamoDbClient.get(params)
         this.logger.info('result: '+JSON.stringify(result.Item))
-        // if (result.Count === 0) {
-        //     throw new Error('No todo with id: ' + todoId)
-        // }
-        // return result
         if (!result.Item) {
             throw new Error('No todo with id: ' + todoId);
         }
@@ -70,7 +58,10 @@ export class TodoRepository {
             Key: {
                 todoId: todoId
             },
-            UpdateExpression: "set name = :name, dueDate = :dueDate, done=:done",
+            UpdateExpression: "set #nameAttr = :name, dueDate = :dueDate, done=:done",
+            ExpressionAttributeNames: {
+                "#nameAttr": "name"
+            },
             ExpressionAttributeValues: {
                 ":name": todoEntity.name || toDo.name,
                 ":dueDate": todoEntity.dueDate || toDo.dueDate,
@@ -82,7 +73,7 @@ export class TodoRepository {
     
     async remove(todoId) {
         this.logger.info('Delete todo id: '+todoId)
-        const toDo = await this.get(todoId)
+        await this.get(todoId)
         const deleteCommand = { 
             TableName: this.todoTable, 
             Key: {
