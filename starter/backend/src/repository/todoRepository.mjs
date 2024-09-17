@@ -66,7 +66,7 @@ export class TodoRepository {
         const updateCommand = {
             TableName: this.todoTable,
             Key: {
-                "id": todoId
+                todoId: todoId
             },
             UpdateExpression: "set name = :name, dueDate = :dueDate, done=:done",
             ExpressionAttributeValues: {
@@ -83,7 +83,7 @@ export class TodoRepository {
         const deleteCommand = { 
             TableName: this.todoTable, 
             Key: {
-                id: todoId
+                todoId: todoId
             } 
         }
         return await this.dynamoDbClient.delete(deleteCommand)
