@@ -14,7 +14,8 @@ export async function handler(event) {
     return {
       statusCode: 201,
       headers: {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
       },
       body: JSON.stringify({
         newItem: newItem,
@@ -25,7 +26,8 @@ export async function handler(event) {
     return {
       statusCode: 404,
       headers: {
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
       },
       body: JSON.stringify({
         error: 'Todo does not exist'
