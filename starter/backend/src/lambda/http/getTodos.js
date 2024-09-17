@@ -1,8 +1,8 @@
 import {TodoService} from "../../services/todoService.mjs"
 
 const todoService = new TodoService
-export function handler(event) {
-  const todos = todoService.getAll()
+export async function handler(event) {
+  const todos = await todoService.getAll()
   return {
     statusCode: 200,
     headers: {
