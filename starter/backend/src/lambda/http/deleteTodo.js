@@ -1,8 +1,9 @@
+import { TodoService } from "../../services/todoService.mjs";
+
+const todoService = new TodoService();
 
 export function handler(event) {
   const todoId = event.pathParameters.todoId
 
-  // TODO: Remove a TODO item by id
-  return undefined
+  return todoService.remove(todoId)
 }
-
