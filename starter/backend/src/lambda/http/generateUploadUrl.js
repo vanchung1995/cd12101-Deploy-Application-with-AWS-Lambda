@@ -6,6 +6,7 @@ import { createLogger } from '../../utils/logger.mjs'
 const s3Client = new S3Client()
 const todoService = new TodoService();
 const logger = createLogger('todoRepository')
+const BUCKET_NAME = process.env.IMAGES_S3_BUCKET
 
 export async function handler(event) {
   const todoId = event.pathParameters.todoId
@@ -41,7 +42,7 @@ export async function handler(event) {
 
 async function getUploadUrl(todoId) {
   const command = new PutObjectCommand({
-    Bucket: bucketName,
+    Bucket: BUCKET_NAME,
     Key: todoId
   })
   const url = await getSignedUrl(s3Client, command, {
