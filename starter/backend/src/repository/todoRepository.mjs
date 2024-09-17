@@ -40,10 +40,14 @@ export class TodoRepository {
         //     }
         // })
         const result = await this.dynamoDbClient.get(params)
-        if (result.Count === 0) {
-            throw new Error('No todo with id: ' + todoId)
+        // if (result.Count === 0) {
+        //     throw new Error('No todo with id: ' + todoId)
+        // }
+        // return result
+        if (!result.Item) {
+            throw new Error('No todo with id: ' + todoId);
         }
-        return result
+        return result.Item
     }
     
     async insert(todoEntity) {
