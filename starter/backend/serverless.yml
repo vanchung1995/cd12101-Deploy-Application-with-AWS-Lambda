@@ -21,6 +21,7 @@ provider:
     TODO_INDEX: TodoIdIndex
     IMAGES_S3_BUCKET: udagram-images-chungvv3-fsoft-ao12349-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    USER_ID_INDEX: UserIdIndex
 
   iam:
     role:
@@ -129,16 +130,8 @@ resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
-          - AttributeName: name
-            AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
-          - AttributeName: dueDate
-            AttributeType: S
-          - AttributeName: attachmentUrl
-            AttributeType: S
-          - AttributeName: done
-            AttributeType: BOOL
         KeySchema:
           - AttributeName: todoId
             KeyType: HASH
@@ -146,6 +139,13 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODO_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.USER_ID_INDEX}
+            KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
     
     AttachmentsBucket:
       Type: AWS::S3::Bucket
