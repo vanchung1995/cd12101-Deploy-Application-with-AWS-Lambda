@@ -1,8 +1,21 @@
+import { v4 as uuidv4 } from 'uuid';
+import { TodoService } from '../../services/todoService.mjs';
 
-export function handler(event) {
+const todoService = new TodoService();
+
+export async function handler(event) {
   const newTodo = JSON.parse(event.body)
 
-  // TODO: Implement creating a new TODO item
-  return undefined
-}
+  const todoId = uuidv4()
+  createdAt = new Date();
+  const done = false;
+  const newItem = {
+    todoId,
+    createdAt,
+    done,
+    ...newTodo
+  }
 
+  await todoService.insert(newItem);
+  return newItem
+}
