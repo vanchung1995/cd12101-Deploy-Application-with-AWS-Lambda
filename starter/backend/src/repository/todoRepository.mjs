@@ -40,7 +40,7 @@ export class TodoRepository {
         //     }
         // })
         const result = await this.dynamoDbClient.get(params)
-        this.logger.info('result: '+result)
+        this.logger.info('result: '+result.Item)
         // if (result.Count === 0) {
         //     throw new Error('No todo with id: ' + todoId)
         // }
