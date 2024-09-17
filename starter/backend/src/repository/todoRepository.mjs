@@ -28,7 +28,7 @@ export class TodoRepository {
         const params = {
             TableName: this.todoTable,
             Key: {
-              id: todoId
+                todoId: todoId
             }
         }
         // const result = await this.dynamoDbClient.query({
