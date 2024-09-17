@@ -1,4 +1,15 @@
+import {TodoService} from "../../services/todoService.mjs"
+
+const todoService = new TodoService
 export function handler(event) {
-  // TODO: Get all TODO items for a current user
-  return undefined
+  const todos = todoService.getAll()
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      items: todos
+    })
+  }
 }
