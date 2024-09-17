@@ -1,7 +1,16 @@
-export function handler(event) {
+import { TodoService } from "../../services/todoService.mjs";
+
+const todoService = new TodoService();
+
+export async function handler(event) {
   const todoId = event.pathParameters.todoId
   const updatedTodo = JSON.parse(event.body)
   
-  // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
-  return undefined
+  await todoService.update(todoId, updatedTodo)
+  return {
+    statusCode: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }
 }
