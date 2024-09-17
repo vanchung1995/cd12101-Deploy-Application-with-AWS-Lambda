@@ -62,6 +62,8 @@ export class TodoRepository {
     
     async update(todoId, todoEntity) {
         this.logger.info('Update todo id: '+todoId)
+        this.logger.info('todoEntity: '+JSON.stringify(todoEntity))
+
         const toDo = await this.get(todoId)
         const updateCommand = {
             TableName: this.todoTable,
@@ -70,9 +72,9 @@ export class TodoRepository {
             },
             UpdateExpression: "set name = :name, dueDate = :dueDate, done=:done",
             ExpressionAttributeValues: {
-                ":name": todoEntity.name | toDo.name,
-                ":dueDate": todoEntity.dueDate | toDo.dueDate,
-                ":done": todoEntity.done | toDo.done
+                ":name": todoEntity.name || toDo.name,
+                ":dueDate": todoEntity.dueDate || toDo.dueDate,
+                ":done": todoEntity.done || toDo.done
             }
         };
         return await this.dynamoDbClient.update(updateCommand)
