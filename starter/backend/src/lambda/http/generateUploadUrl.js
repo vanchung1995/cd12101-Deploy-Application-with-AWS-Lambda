@@ -43,11 +43,11 @@ export async function handler(event) {
 async function getUploadUrl(todoId) {
   const command = new PutObjectCommand({
     Bucket: BUCKET_NAME,
-    Key: todoId + ".png"
+    Key: todoId + ".png",
+    ContentType: 'image/png'
   })
   const url = await getSignedUrl(s3Client, command, {
     expiresIn: URL_EXPIRATION,
-    ContentType: 'image/png'
   })
   return url
 }
