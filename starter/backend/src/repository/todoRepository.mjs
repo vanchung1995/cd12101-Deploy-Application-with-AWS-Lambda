@@ -18,7 +18,7 @@ export class TodoRepository {
         const scanCommand = {
             TableName: this.todoTable
         }
-        const result = await dynamoDbClient.query({
+        const result = await this.dynamoDbClient.query({
             TableName: this.todoTable,
             IndexName: this.todoIndex,
             KeyConditionExpression: 'userId = :userId',
