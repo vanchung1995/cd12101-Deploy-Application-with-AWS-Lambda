@@ -46,7 +46,8 @@ async function getUploadUrl(todoId) {
     Key: todoId
   })
   const url = await getSignedUrl(s3Client, command, {
-    expiresIn: URL_EXPIRATION
+    expiresIn: URL_EXPIRATION,
+    ContentType: 'image/jpg'
   })
   return url
 }
