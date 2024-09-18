@@ -12,12 +12,13 @@ const URL_EXPIRATION = process.env.SIGNED_URL_EXPIRATION
 export async function handler(event) {
   const authorization = event.headers.Authorization
   const userId = parseUserId(authorization)
-  console.log('userId: ' + userId)
   
   const todoId = event.pathParameters.todoId
 
   try {
-    await todoService.get(todoId)
+    const oldTodo = await todoService.get(todoId)
+    if (oldTodo.userId != userId) throw new Error("Todo with id: " + todoId + " doesnot exist")
+
     const url = await getUploadUrl(todoId)
     return {
       statusCode: 201,

@@ -7,11 +7,13 @@ const logger = createLogger('todoRepository')
 export async function handler(event) {
   const authorization = event.headers.Authorization
   const userId = parseUserId(authorization)
-  console.log('userId: ' + userId)
   
   const todoId = event.pathParameters.todoId
   const updatedTodo = JSON.parse(event.body)
   try {
+    const oldTodo = await todoService.get(todoId)
+    if (oldTodo.userId != userId) throw new Error("Todo with id: " + todoId + " doesnot exist")
+    
     await todoService.update(todoId, updatedTodo)
     return {
       statusCode: 204,
