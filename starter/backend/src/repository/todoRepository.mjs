@@ -4,7 +4,7 @@ import { createLogger } from '../utils/logger.mjs'
 
 export class TodoRepository {
 
-    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.USER_ID_INDEX) {
+    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.TODO_ID_INDEX) {
         this.logger = createLogger('todoRepository')
 
         this.todoTable = todoTable
@@ -20,7 +20,6 @@ export class TodoRepository {
         }
         const result = await this.dynamoDbClient.query({
             TableName: this.todoTable,
-            IndexName: this.todoIndex,
             KeyConditionExpression: 'userId = :userId',
             ExpressionAttributeValues: {
                 ':userId': userId
@@ -40,7 +39,6 @@ export class TodoRepository {
             }
         }
         const result = await this.dynamoDbClient.get(params)
-        this.logger.info('result: '+JSON.stringify(result.Item))
         if (!result.Item) {
             throw new Error('No todo with id: ' + todoId);
         }
