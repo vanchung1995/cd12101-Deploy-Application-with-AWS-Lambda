@@ -45,8 +45,8 @@ export async function handler(event) {
 async function verifyToken(authHeader) {
   const token = getToken(authHeader)
   const jwt = jsonwebtoken.decode(token, { complete: true })
-  console.log('jwt: '+jwt);
-  const verifier = getVerifier(jwt.header.kid)
+  console.log('jwt: '+JSON.stringify(jwt));
+  const verifier = await getVerifier(jwt.header.kid)
   console.log('verifier: ' + verifier)
 
   // TODO: Implement token verification
