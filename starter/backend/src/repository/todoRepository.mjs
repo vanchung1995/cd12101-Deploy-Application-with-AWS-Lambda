@@ -58,14 +58,15 @@ export class TodoRepository {
             Key: {
                 todoId: todoId
             },
-            UpdateExpression: "set #nameAttr = :name, dueDate = :dueDate, done=:done",
+            UpdateExpression: "set #nameAttr = :name, dueDate = :dueDate, done=:done, attachmentUrl=:attachmentUrl",
             ExpressionAttributeNames: {
                 "#nameAttr": "name"
             },
             ExpressionAttributeValues: {
                 ":name": todoEntity.name || toDo.name,
                 ":dueDate": todoEntity.dueDate || toDo.dueDate,
-                ":done": todoEntity.done || toDo.done
+                ":done": todoEntity.done || toDo.done,
+                ":attachmentUrl": todoEntity.attachmentUrl || toDo.attachmentUrl || ''
             }
         };
         return await this.dynamoDbClient.update(updateCommand)
