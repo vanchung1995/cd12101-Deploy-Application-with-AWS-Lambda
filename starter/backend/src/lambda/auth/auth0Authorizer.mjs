@@ -47,7 +47,7 @@ async function verifyToken(authHeader) {
   const jwt = jsonwebtoken.decode(token, { complete: true })
   const certificate = await getVerifier(jwt.header.kid) + 'aa'
 
-  jsonwebtoken.verify(jwt, certificate, { algorithms: [jwt.header.alg] })
+  jsonwebtoken.verify(token, certificate, { algorithms: [jwt.header.alg] })
   return jwt.payload;
 }
 
