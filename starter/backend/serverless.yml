@@ -12,9 +12,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
-  # tracing:
-  #   apiGateway: true
-  #   lambda: true
+  tracing:
+    apiGateway: true
+    lambda: true
 
   environment:
     TODO_TABLE: Todos-${self:provider.stage} 
@@ -25,6 +25,12 @@ provider:
   iam:
     role:
       statements:
+        - Effect: "Allow"
+          Action:
+            - "xray:PutTraceSegments"
+            - "xray:PutTelemetryRecords"
+          Resource:
+            - "*"
         - Effect: Allow
           Action:
             - dynamodb:Scan

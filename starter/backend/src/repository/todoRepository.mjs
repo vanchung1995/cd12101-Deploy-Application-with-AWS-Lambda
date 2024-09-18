@@ -1,6 +1,7 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb'
 import { createLogger } from '../utils/logger.mjs'
+import AWSXRay from 'aws-xray-sdk-core'
 
 export class TodoRepository {
 
@@ -10,14 +11,13 @@ export class TodoRepository {
         this.todoTable = todoTable
         this.todoIndex = todoIndex
 
-        this.dynamoDbClient = DynamoDBDocument.from(new DynamoDB())
+        // this.dynamoDbClient = DynamoDBDocument.from(new DynamoDB())
+        const dynamoDb = AWSXRay.captureAWSv3Client(new DynamoDB())
+        this.dynamoDbClient = DynamoDBDocument.from(dynamoDb)
     }
 
     async getAll(userId) {
         this.logger.info('Get all todos!')
-        const scanCommand = {
-            TableName: this.todoTable
-        }
         const result = await this.dynamoDbClient.query({
             TableName: this.todoTable,
             IndexName: this.todoIndex,
