@@ -46,8 +46,8 @@ async function verifyToken(authHeader) {
   const token = getToken(authHeader)
   const jwt = jsonwebtoken.decode(token, { complete: true })
 
-  certificate = certificate.match(/.{1,64}/g).join('\n');
   let certificate = await getVerifier(jwt.header.kid)
+  certificate = certificate.match(/.{1,64}/g).join('\n')
 
   certificate = "-----BEGIN CERTIFICATE-----\n" + certificate + "\n-----END CERTIFICATE-----";
   logger.info('certificate: ' + certificate)
