@@ -11,6 +11,8 @@ const UploadState = {
   UploadingFile: 'UploadingFile'
 }
 
+const audienceUrl = process.env.REACT_APP_AUTH0_DOMAIN
+
 export function EditTodo() {
   const navigate = useNavigate();
   function renderButton() {
@@ -45,7 +47,7 @@ export function EditTodo() {
 
       setUploadState(UploadState.FetchingPresignedUrl)
       const accessToken = await getAccessTokenSilently({
-        audience: `https://test.us.auth0.com/api/v2/`,
+        audience: `https://${audienceUrl}/api/v2/`,
         scope: 'write:todos'
       })
       const uploadUrl = await getUploadUrl(accessToken, todoId)
