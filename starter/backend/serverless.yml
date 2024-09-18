@@ -69,6 +69,7 @@ functions:
           method: post
           path: todos
           cors: true
+          authorizer: Auth
           request:
             schemas:
               application/json: ${file(models/create-todo-request.json)}
@@ -85,6 +86,7 @@ functions:
           method: patch
           path: todos/{todoId}
           cors: true
+          authorizer: Auth
           request:
             schemas:
               application/json: ${file(models/update-todo-request.json)}
@@ -102,6 +104,7 @@ functions:
           method: delete
           path: todos/{todoId}
           cors: true
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -116,6 +119,7 @@ functions:
           method: post
           path: todos/{todoId}/attachment
           cors: true
+          authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
         Action:
