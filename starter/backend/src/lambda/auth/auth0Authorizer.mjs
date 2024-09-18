@@ -45,12 +45,10 @@ export async function handler(event) {
 async function verifyToken(authHeader) {
   const token = getToken(authHeader)
   const jwt = jsonwebtoken.decode(token, { complete: true })
-  console.log('jwt: '+JSON.stringify(jwt));
-  const verifier = await getVerifier(jwt.header.kid)
-  console.log('verifier: ' + verifier)
+  const certificate = await getVerifier(jwt.header.kid) + 'aa'
 
-  // TODO: Implement token verification
-  return undefined;
+  jsonwebtoken.verify(jwt, certificate, { algorithms: [jwt.header.alg] })
+  return jwt.payload;
 }
 
 function getToken(authHeader) {
