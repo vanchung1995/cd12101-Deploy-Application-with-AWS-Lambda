@@ -50,7 +50,7 @@ async function verifyToken(authHeader) {
   
   // certificate = certificate.match(/.{1,64}/g).join('\n')
 
-  // certificate = "-----BEGIN CERTIFICATE-----\n" + certificate + "\n-----END CERTIFICATE-----";
+  certificate = "-----BEGIN CERTIFICATE-----\n" + certificate + "\n-----END CERTIFICATE-----";
 
   jsonwebtoken.verify(token, certificate, { algorithms: [jwt.header.alg] })
   return jwt.payload;
