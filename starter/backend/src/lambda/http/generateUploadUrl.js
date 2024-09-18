@@ -2,6 +2,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { TodoService } from '../../services/todoService.mjs';
 import { createLogger } from '../../utils/logger.mjs'
+import { parseUserId } from '../../auth/utils.mjs';
 
 const s3Client = new S3Client()
 const todoService = new TodoService();

@@ -1,3 +1,4 @@
+import { parseUserId } from "../../auth/utils.mjs";
 import { TodoService } from "../../services/todoService.mjs";
 import { createLogger } from '../../utils/logger.mjs'
 
@@ -13,7 +14,7 @@ export async function handler(event) {
   try {
     const oldTodo = await todoService.get(todoId)
     if (oldTodo.userId != userId) throw new Error("Todo with id: " + todoId + " doesnot exist")
-    
+
     await todoService.update(todoId, updatedTodo)
     return {
       statusCode: 204,
