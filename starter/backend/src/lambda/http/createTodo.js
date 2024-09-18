@@ -25,7 +25,7 @@ export async function handler(event) {
       'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
-      newItem
+      item: newItem
     })
   }
 }
