@@ -63,10 +63,10 @@ export class TodoRepository {
                 "#nameAttr": "name"
             },
             ExpressionAttributeValues: {
-                ":name": todoEntity.name || toDo.name,
-                ":dueDate": todoEntity.dueDate || toDo.dueDate,
-                ":done": todoEntity.done || toDo.done,
-                ":attachmentUrl": todoEntity.attachmentUrl || toDo.attachmentUrl || ''
+                ":name": todoEntity.name ?? toDo.name,
+                ":dueDate": todoEntity.dueDate ?? toDo.dueDate,
+                ":done": typeof todoEntity.done !== 'undefined' ? todoEntity.done : toDo.done,
+                ":attachmentUrl": todoEntity.attachmentUrl ?? toDo.attachmentUrl ?? ''
             }
         };
         return await this.dynamoDbClient.update(updateCommand)
