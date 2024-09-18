@@ -7,7 +7,7 @@ export async function handler(event) {
   const userId = parseUserId(authorization)
   console.log('userId: ' + userId)
 
-  const todos = await todoService.getAll()
+  const todos = await todoService.getAll(userId)
   return {
     statusCode: 200,
     headers: {

@@ -18,7 +18,6 @@ provider:
 
   environment:
     TODO_TABLE: Todos-${self:provider.stage} 
-    TODO_INDEX: TodoIdIndex
     IMAGES_S3_BUCKET: udagram-images-chungvv3-fsoft-ao12349-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     USER_ID_INDEX: UserIdIndex
@@ -41,7 +40,7 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:Query
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.TODO_INDEX}
+          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.USER_ID_INDEX}
 
 functions:
 
@@ -139,11 +138,20 @@ resources:
         AttributeDefinitions:
           - AttributeName: todoId
             AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
         KeySchema:
           - AttributeName: todoId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODO_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.USER_ID_INDEX}
+            KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
     
     AttachmentsBucket:
       Type: AWS::S3::Bucket

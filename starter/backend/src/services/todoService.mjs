@@ -5,8 +5,8 @@ export class TodoService {
         this.repo = new TodoRepository();
     }
 
-    async getAll() {
-        return await this.repo.getAll();
+    async getAll(userId) {
+        return await this.repo.getAll(userId);
     }
     
     async get(todoId) {

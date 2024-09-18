@@ -4,7 +4,7 @@ import { createLogger } from '../utils/logger.mjs'
 
 export class TodoRepository {
 
-    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.TODO_INDEX) {
+    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.USER_ID_INDEX) {
         this.logger = createLogger('todoRepository')
 
         this.todoTable = todoTable
@@ -13,12 +13,20 @@ export class TodoRepository {
         this.dynamoDbClient = DynamoDBDocument.from(new DynamoDB())
     }
 
-    async getAll() {
+    async getAll(userId) {
         this.logger.info('Get all todos!')
         const scanCommand = {
             TableName: this.todoTable
         }
-        const result = await this.dynamoDbClient.scan(scanCommand)
+        const result = await dynamoDbClient.query({
+            TableName: this.todoTable,
+            IndexName: this.todoIndex,
+            KeyConditionExpression: 'userId = :userId',
+            ExpressionAttributeValues: {
+                ':userId': userId
+            }
+        })
+
         const items = result.Items
         return items
     }
