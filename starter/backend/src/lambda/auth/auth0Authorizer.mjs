@@ -76,5 +76,5 @@ async function getVerifier(kid) {
     jwksUrl
   )
   const keys = response.data.keys
-  return keys.filter(k => k.kid == kid)[0].x5c
+  return keys.filter(k => k.kid == kid)[0].x5c[0]
 }
