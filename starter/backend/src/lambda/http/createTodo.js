@@ -4,6 +4,10 @@ import { TodoService } from '../../services/todoService.mjs';
 const todoService = new TodoService();
 
 export async function handler(event) {
+  const authorization = event.headers.Authorization
+  const userId = parseUserId(authorization)
+  console.log('userId: ' + userId)
+  
   const newTodo = JSON.parse(event.body)
 
   const todoId = uuidv4()

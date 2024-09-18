@@ -10,6 +10,10 @@ const BUCKET_NAME = process.env.IMAGES_S3_BUCKET
 const URL_EXPIRATION = process.env.SIGNED_URL_EXPIRATION
 
 export async function handler(event) {
+  const authorization = event.headers.Authorization
+  const userId = parseUserId(authorization)
+  console.log('userId: ' + userId)
+  
   const todoId = event.pathParameters.todoId
 
   try {

@@ -5,6 +5,10 @@ const todoService = new TodoService();
 const logger = createLogger('todoRepository')
 
 export async function handler(event) {
+  const authorization = event.headers.Authorization
+  const userId = parseUserId(authorization)
+  console.log('userId: ' + userId)
+  
   const todoId = event.pathParameters.todoId
   const updatedTodo = JSON.parse(event.body)
   try {
