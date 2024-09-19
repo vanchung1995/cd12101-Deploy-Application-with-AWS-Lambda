@@ -20,7 +20,7 @@ provider:
     TODO_TABLE: Todos-${self:provider.stage} 
     IMAGES_S3_BUCKET: udagram-images-chungvv3-fsoft-ao12349-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
-    USER_ID_INDEX: UserIdIndex
+    CREATED_AT_INDEX: CreatedAtIndex
 
   iam:
     role:
@@ -40,7 +40,7 @@ provider:
         - Effect: Allow
           Action:
             - dynamodb:Query
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.USER_ID_INDEX}
+          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.CREATED_AT_INDEX}
 
 functions:
 
@@ -63,7 +63,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.USER_ID_INDEX}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/index/${self:provider.environment.CREATED_AT_INDEX}
 
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
@@ -144,16 +144,22 @@ resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S 
         KeySchema:
-          - AttributeName: todoId
+          - AttributeName: userId
             KeyType: HASH
+          - AttributeName: todoId
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODO_TABLE}
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.USER_ID_INDEX}
+          - IndexName: ${self:provider.environment.CREATED_AT_INDEX}
             KeySchema:
             - AttributeName: userId
               KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
             Projection:
               ProjectionType: ALL
     
