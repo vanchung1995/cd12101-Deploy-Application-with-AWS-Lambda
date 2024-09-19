@@ -12,10 +12,10 @@ export async function handler(event) {
   const todoId = event.pathParameters.todoId
   const updatedTodo = JSON.parse(event.body)
   try {
-    const oldTodo = await todoService.get(todoId)
+    const oldTodo = await todoService.get(userId, todoId)
     if (oldTodo.userId != userId) throw new Error("Todo with id: " + todoId + " doesnot exist")
 
-    await todoService.update(todoId, updatedTodo)
+    await todoService.update(userId, todoId, updatedTodo)
     return {
       statusCode: 204,
       headers: {
