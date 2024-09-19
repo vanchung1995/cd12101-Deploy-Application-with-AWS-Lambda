@@ -17,7 +17,7 @@ export class TodoRepository {
     }
 
     async getAll(userId) {
-        this.logger.info('Get all todos!')
+        this.logger.info('Get all todos for userId: ' + userId)
         const result = await this.dynamoDbClient.query({
             TableName: this.todoTable,
             KeyConditionExpression: 'userId = :userId',
@@ -31,7 +31,7 @@ export class TodoRepository {
     }
     
     async get(userId, todoId) {
-        this.logger.info('Get todo with id: ' + todoId)
+        this.logger.info('Get todo with id: ' + todoId + ' for userId: ' +userId)
         const params = {
             TableName: this.todoTable,
             Key: {
@@ -57,7 +57,7 @@ export class TodoRepository {
     }
     
     async update(userId, todoId, todoEntity) {
-        this.logger.info('Update todo id: '+todoId)
+        this.logger.info('Update todo id: '+todoId +', userId: ' + userId)
         this.logger.info('todoEntity: '+JSON.stringify(todoEntity))
 
         const toDo = await this.get(todoId, userId)
@@ -81,7 +81,7 @@ export class TodoRepository {
     }
     
     async remove(userId, todoId) {
-        this.logger.info('Delete todo id: '+todoId)
+        this.logger.info('Delete todo id: '+todoId +', userId: '+userId)
         await this.get(todoId, userId)
         const deleteCommand = { 
             TableName: this.todoTable, 
