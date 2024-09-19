@@ -9,8 +9,8 @@ export class TodoService {
         return await this.repo.getAll(userId);
     }
     
-    async get(todoId) {
-        return await this.repo.get(todoId);
+    async get(todoId, userId) {
+        return await this.repo.get(todoId, userId);
     }
     
     async insert(todoEntity) {
