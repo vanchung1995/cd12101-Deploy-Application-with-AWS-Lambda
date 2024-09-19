@@ -10,7 +10,7 @@ export class TodoService {
     }
     
     async get(todoId, userId) {
-        return await this.repo.get(todoId, userId);
+        return await this.repo.get(userId, todoId);
     }
     
     async insert(todoEntity) {
@@ -18,10 +18,10 @@ export class TodoService {
     }
     
     async update(todoId, todoEntity) {
-        return this.repo.update(todoId, todoEntity)
+        return this.repo.update(userId, todoId, todoEntity)
     }
     
     async remove(todoId) {
-        return await this.repo.remove(todoId);
+        return await this.repo.remove(userId, todoId);
     }
 }
