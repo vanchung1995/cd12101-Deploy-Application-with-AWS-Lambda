@@ -5,7 +5,7 @@ import AWSXRay from 'aws-xray-sdk-core'
 
 export class TodoRepository {
 
-    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.USER_ID_INDEX) {
+    constructor(todoTable=process.env.TODO_TABLE, todoIndex=process.env.CREATED_AT_INDEX) {
         this.logger = createLogger('todoRepository')
 
         this.todoTable = todoTable
@@ -20,7 +20,6 @@ export class TodoRepository {
         this.logger.info('Get all todos!')
         const result = await this.dynamoDbClient.query({
             TableName: this.todoTable,
-            IndexName: this.todoIndex,
             KeyConditionExpression: 'userId = :userId',
             ExpressionAttributeValues: {
                 ':userId': userId
@@ -31,11 +30,12 @@ export class TodoRepository {
         return items
     }
     
-    async get(todoId) {
+    async get(todoId, userId) {
         this.logger.info('Get todo with id: ' + todoId)
         const params = {
             TableName: this.todoTable,
             Key: {
+                userId: userId,
                 todoId: todoId
             }
         }
